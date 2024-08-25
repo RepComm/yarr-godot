@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcwvtjrjosoc0"]
+
+[ext_resource type="PackedScene" uid="uid://dityhrhxn8vvi" path="res://models/coffee-shop.blend" id="2_48mti"]
+[ext_resource type="Script" path="res://scripts/fix_gltf_lights.gd" id="2_at72x"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="fix_gltf_lights" type="Node3D" parent="." node_paths=PackedStringArray("scene")]
+script = ExtResource("2_at72x")
+scene = NodePath("..")
+
+[node name="coffee-shop2" parent="." instance=ExtResource("2_48mti")]

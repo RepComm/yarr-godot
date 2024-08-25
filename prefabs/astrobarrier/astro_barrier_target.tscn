@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://l6mbx44fcffp"]
+
+[ext_resource type="Texture2D" uid="uid://baly6r7ft2k7s" path="res://textures/astro_barrier_target_sm.png" id="1_r3k4u"]
+[ext_resource type="Script" path="res://scripts/astrobarrier/target.gd" id="2_m3ryg"]
+[ext_resource type="Script" path="res://scripts/path_follow_anim.gd" id="2_wtlo5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enoip"]
+size = Vector2(8, 8)
+
+[node name="target" type="PathFollow2D" groups=["astro_barrier_target"]]
+position = Vector2(-35, -17.1982)
+progress = 3884.54
+rotates = false
+
+[node name="AstroBarrierTargetSm" type="Sprite2D" parent="."]
+texture = ExtResource("1_r3k4u")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_m3ryg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_enoip")
+
+[node name="_Timer_17473" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="PathFollowAnim" type="Node2D" parent="."]
+script = ExtResource("2_wtlo5")

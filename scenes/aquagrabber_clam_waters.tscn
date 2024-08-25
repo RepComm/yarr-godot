@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://p41eppnvmm0y"]
+
+[ext_resource type="Script" path="res://scripts/fix_gltf_lights.gd" id="1_tmt3m"]
+[ext_resource type="PackedScene" uid="uid://bx7agvpqbhieo" path="res://models/aqua-grabber-calm-waters.blend" id="2_wgdbh"]
+[ext_resource type="PackedScene" uid="uid://bh0e20l6px6j2" path="res://models/aqua-grabber.blend" id="2_yv6mh"]
+[ext_resource type="Script" path="res://scripts/aquagrabber/ship.gd" id="3_bg4cf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8u15n"]
+radius = 0.75
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hvsbp"]
+sky_top_color = Color(0.584629, 0.737917, 0.960755, 1)
+sky_horizon_color = Color(0.811538, 0.897951, 0.988956, 1)
+sky_curve = 0.109806
+ground_bottom_color = Color(0.0183722, 0.113995, 0.316804, 1)
+ground_horizon_color = Color(0.0677036, 0.696608, 0.884134, 1)
+ground_curve = 0.251067
+sun_curve = 0.047796
+
+[sub_resource type="Sky" id="Sky_uudgm"]
+sky_material = SubResource("ProceduralSkyMaterial_hvsbp")
+
+[sub_resource type="Environment" id="Environment_dp3fl"]
+background_mode = 2
+sky = SubResource("Sky_uudgm")
+ambient_light_color = Color(1, 1, 1, 1)
+fog_enabled = true
+fog_light_color = Color(0.0887575, 0.229223, 0.582459, 1)
+fog_density = 0.001
+fog_sky_affect = 0.264
+fog_height = -15.0
+fog_height_density = 0.02
+
+[node name="Node3D" type="Node3D"]
+
+[node name="fix_gltf_lights" type="Node3D" parent="." node_paths=PackedStringArray("scene")]
+script = ExtResource("1_tmt3m")
+scene = NodePath("..")
+
+[node name="aqua-grabber-calm-waters" parent="." instance=ExtResource("2_wgdbh")]
+
+[node name="ship" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.56599, 0)
+disable_mode = 2
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+linear_damp = 0.75
+angular_damp = 7.071
+constant_force = Vector3(0, 9.5, 0)
+script = ExtResource("3_bg4cf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ship"]
+shape = SubResource("SphereShape3D_8u15n")
+
+[node name="aqua-grabber" parent="ship" instance=ExtResource("2_yv6mh")]
+transform = Transform3D(1, 0, 0, 0, 0.956945, -0.290268, 0, 0.290268, 0.956945, -0.0041852, -0.0159152, -0.0160091)
+
+[node name="Camera3D" type="Camera3D" parent="ship"]
+transform = Transform3D(1, 0, 0, 0, 0.973651, 0.228045, 0, -0.228045, 0.973651, 0, 2.358, 8)
+environment = SubResource("Environment_dp3fl")
+current = true
+far = 1000.0

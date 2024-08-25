@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://ms1e8k2jeark"]
+
+[ext_resource type="Texture2D" uid="uid://phcgfet42eap" path="res://textures/astro_barrier_ship.png" id="1_tuovy"]
+[ext_resource type="PackedScene" uid="uid://l6mbx44fcffp" path="res://prefabs/astrobarrier/astro_barrier_target.tscn" id="2_1g7e8"]
+[ext_resource type="Script" path="res://scripts/path_copy_line.gd" id="2_gk2df"]
+[ext_resource type="Texture2D" uid="uid://b135irlnofqhu" path="res://textures/astro_barrier_block_md.png" id="2_oqhnf"]
+[ext_resource type="Script" path="res://scripts/astrobarrier/ship.gd" id="5_nvale"]
+[ext_resource type="PackedScene" uid="uid://dicnntbaef2eb" path="res://prefabs/astrobarrier/astro_barrier_bullet.tscn" id="6_sdxyf"]
+
+[sub_resource type="Curve2D" id="Curve2D_oop02"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 35, 0, 0, 0, 0, 0, 35, -35, 0, 0, 0, 0, -35, -35, 0, 0, 0, 0, -35, 0, 0, 0, 0, 0, -6, 0)
+}
+point_count = 6
+
+[node name="Node2D" type="Node2D"]
+
+[node name="screen" type="Polygon2D" parent="."]
+scale = Vector2(2.5, 2.5)
+color = Color(0.245005, 0.442913, 0.197316, 1)
+polygon = PackedVector2Array(-128, -128, 128, -128, 128, 128, -128, 128)
+
+[node name="border" type="Line2D" parent="screen"]
+points = PackedVector2Array(-120, -120, 120, -120, 120, 120, -120, 120)
+closed = true
+width = 1.0
+default_color = Color(0.796472, 0.835355, 0.793085, 1)
+
+[node name="target_track" type="Line2D" parent="screen"]
+points = PackedVector2Array(6, 0, 35, 0, 35, -35, -35, -35, -35, 0, -6, 0)
+width = 2.0
+default_color = Color(0.280627, 0.610923, 0.999986, 1)
+
+[node name="Path2D" type="Path2D" parent="screen/target_track"]
+curve = SubResource("Curve2D_oop02")
+script = ExtResource("2_gk2df")
+
+[node name="target" parent="screen/target_track/Path2D" instance=ExtResource("2_1g7e8")]
+position = Vector2(9.45891, 0)
+progress = 3.54972
+
+[node name="target2" parent="screen/target_track/Path2D" instance=ExtResource("2_1g7e8")]
+position = Vector2(33.7098, -35.0939)
+progress = 65.5058
+
+[node name="target4" parent="screen/target_track/Path2D" instance=ExtResource("2_1g7e8")]
+position = Vector2(12.7521, 0)
+progress = 6.6455
+
+[node name="AstroBarrierShip" type="Sprite2D" parent="screen" node_paths=PackedStringArray("bullet_parent")]
+position = Vector2(0, 100)
+texture = ExtResource("1_tuovy")
+script = ExtResource("5_nvale")
+bullet_parent = NodePath("../bullets")
+bullet_prefab = ExtResource("6_sdxyf")
+
+[node name="AstroBarrierBlockMd" type="Sprite2D" parent="screen"]
+texture = ExtResource("2_oqhnf")
+
+[node name="bullets" type="Node2D" parent="screen"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-1, 0)
